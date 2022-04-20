@@ -19,7 +19,7 @@ namespace KiraiMod.Modules
             GUI.Groups.Loaded += () =>
             {
                 UIGroup ui = new("ClickTp", GUI.Groups.Movement);
-                ui.AddElement("ClickTp", clickTp.Value).Bound.Bind(clickTp);
+                ui.AddElement("ClickTp", enabled.Value).Bound.Bind(enabled);
             };
 
             enabled.SettingChanged += ((EventHandler)((sender, args) =>
@@ -32,10 +32,9 @@ namespace KiraiMod.Modules
 
         public static void OnUpdate()
         {
-            RaycastHit hit;
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyUp(KeyCode.Mouse0))
             {
-                Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, range.Value);
+                Physics.Raycast(camera.transform.position, camera.transform.forward, out RaycastHit hit, range.Value);
                 if (hit.transform == null) return;
                 Networking.LocalPlayer.gameObject.transform.position = hit.point;
             };
