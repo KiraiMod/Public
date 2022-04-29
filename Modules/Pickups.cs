@@ -97,14 +97,14 @@ namespace KiraiMod.Modules
                     {
                         if (theft.Value)
                         {
-                            Events.WorldLoaded += OnWorldLoaded;
+                            Events.World.Loaded += OnWorldLoaded;
                             foreach (VRC_Pickup pickup in UnityEngine.Object.FindObjectsOfType<VRC_Pickup>())
                                 setup(pickup);
                             hook.Toggle(true);
                         }
                         else
                         {
-                            Events.WorldLoaded -= OnWorldLoaded;
+                            Events.World.Loaded -= OnWorldLoaded;
                             hook.Toggle(false);
                         }
                     })).Invoke();

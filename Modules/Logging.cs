@@ -27,8 +27,8 @@ namespace KiraiMod.Modules
 
             VotesReady.SettingChanged += ((EventHandler)((sender, args) =>
             {
-                if (PlayerLeave.Value) Events.WorldInstanceLoaded += StartVoteTimer;
-                else Events.WorldInstanceLoaded -= StartVoteTimer;
+                if (PlayerLeave.Value) Events.World.InstanceLoaded += StartVoteTimer;
+                else Events.World.InstanceLoaded -= StartVoteTimer;
             })).Invoke();
         }
 

@@ -29,7 +29,7 @@ namespace KiraiMod.Modules
                 flight.AddElement("Directional", directional.Value).Bound.Bind(directional);
             };
 
-            Events.WorldUnloaded += scene => state.Value = false;
+            Events.World.Unloaded += scene => state.Value = false;
 
             state.ValueChanged += value => {
                 if (value) Enable();
@@ -53,7 +53,7 @@ namespace KiraiMod.Modules
             if (XRDevice.isPresent)
                 Events.Update += UpdateVR;
             else Events.Update += UpdateDesktop;
-            Events.WorldLoaded += WorldLoaded;
+            Events.World.Loaded += WorldLoaded;
             if (noclip.Value)
                 Collisions.Set(true);
             Target.Fetch();
@@ -64,7 +64,7 @@ namespace KiraiMod.Modules
             if (XRDevice.isPresent)
                 Events.Update -= UpdateVR;
             else Events.Update -= UpdateDesktop;
-            Events.WorldLoaded -= WorldLoaded;
+            Events.World.Loaded -= WorldLoaded;
             Collisions.Set(false);
 
             Physics.gravity = oGrav;

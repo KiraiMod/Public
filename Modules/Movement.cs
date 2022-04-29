@@ -39,7 +39,7 @@ namespace KiraiMod.Modules
             {
                 enabled.ValueChanged += SetState;
                 bind.Register(() => enabled.Value = !enabled._value);
-                Events.WorldUnloaded += _ => enabled.Value = false;
+                Events.World.Unloaded += _ => enabled.Value = false;
             }
 
             private static void SetState(bool state)

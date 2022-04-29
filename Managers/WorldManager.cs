@@ -16,9 +16,9 @@ namespace KiraiMod.Managers
 
         static WorldManager()
         {
-            Events.WorldLoaded += scene => currentScene = scene;
-            Events.WorldUnloaded += OnWorldUnloaded;
-            Events.WorldInstanceLoaded += OnInstanceLoaded;
+            Events.World.Loaded += scene => currentScene = scene;
+            Events.World.Unloaded += OnWorldUnloaded;
+            Events.World.InstanceLoaded += OnInstanceLoaded;
         }
 
         private static void OnInstanceLoaded(ApiWorldInstance instance)

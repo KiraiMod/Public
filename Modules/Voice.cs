@@ -35,12 +35,12 @@ namespace KiraiMod.Modules
                 if (value)
                 {
                     m_MicVolume.Invoke(null, volumeOn);
-                    Events.WorldLoaded += OnWorldLoad;
+                    Events.World.Loaded += OnWorldLoad;
                 }
                 else
                 {
                     m_MicVolume.Invoke(null, volumeOff);
-                    Events.WorldLoaded -= OnWorldLoad;
+                    Events.World.Loaded -= OnWorldLoad;
                 }
             };
 
@@ -94,13 +94,13 @@ namespace KiraiMod.Modules
         {
             public static Image image;
 
-            public static readonly Color originalColor = new(0.8456f, 0, 0, 0.5023f);
+            public static readonly Color normalColor = new Color32(0x56, 0x00, 0xA5, 0xFF);
             public static readonly Color hiddenColor = new Color32(0x9B, 0xF4, 0x04, 0xFF);
 
             public static void SetHidden(bool state)
             {
                 if (image is not null)
-                    image.color = state ? hiddenColor : originalColor;
+                    image.color = state ? hiddenColor : normalColor;
             }
         }
     }
