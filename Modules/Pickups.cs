@@ -1,5 +1,4 @@
 ﻿using BepInEx.Configuration;
-using HarmonyLib;
 using KiraiMod.Core.UI;
 using KiraiMod.Core.Utils;
 using System;
@@ -11,6 +10,7 @@ using VRC.Udon.Wrapper.Modules;
 
 namespace KiraiMod.Modules
 {
+    [Module]
     public static class Pickups
     {
         private static readonly MethodInfo NoOp = typeof(Pickups).GetMethod(nameof(HkNoOp), BindingFlags.NonPublic | BindingFlags.Static);

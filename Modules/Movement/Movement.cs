@@ -5,8 +5,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using VRC.SDKBase;
 
-namespace KiraiMod.Modules
+namespace KiraiMod.Modules.Movement
 {
+    [Module]
     public static class Movement
     {
         static Movement()

@@ -1,4 +1,5 @@
 ﻿global using KiraiMod.Core;
+global using KiraiMod.Core.ModuleAPI;
 
 using BepInEx;
 using BepInEx.Configuration;

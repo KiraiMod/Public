@@ -1,13 +1,12 @@
 ﻿using KiraiMod.Core.UI;
 using KiraiMod.Core.Utils;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
 namespace KiraiMod.Modules
 {
+    [Module]
     public static class Downloads
     {
         public static Bound<bool> paused = new();

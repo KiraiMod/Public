@@ -5,6 +5,7 @@ using VRC.SDKBase;
 
 namespace KiraiMod.Modules
 {
+    [Module]
     public static class Players
     {
         public static List<Core.Types.Player> Selected = new();

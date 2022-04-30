@@ -6,6 +6,7 @@ namespace KiraiMod.Modules
 {
     // TODO: rewrite this
     // TODO: add paranoid mode where it will abort if the new id isn't exact
+    [Module]
     public static class HWID
     {
         private static readonly string target;

@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 namespace KiraiMod.Modules
 {
+    [Module]
     public static class Voice
     {
         public static Bound<bool> LoudMic = new();

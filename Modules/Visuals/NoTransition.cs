@@ -2,10 +2,11 @@
 using System;
 using UnityEngine;
 
-namespace KiraiMod.Modules
+namespace KiraiMod.Modules.Visuals
 {
     // the idea for this comes from that person that was friends with keafy
     // their mod had an issue, i think it was causing the game to crash
+    [Module]
     public static class NoTransition
     {
         public static ConfigEntry<bool> Enabled = Plugin.cfg.Bind("Visuals", "No Transitions", true, "Should the black fade between worlds be removed?");

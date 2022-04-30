@@ -5,8 +5,9 @@ using UnityEngine;
 using VRC.Core;
 using VRC.SDKBase;
 
-namespace KiraiMod.Modules
+namespace KiraiMod.Modules.Visuals
 {
+    [Module]
     public static class ESP
     {
         public static ConfigEntry<bool> Enabled = Plugin.cfg.Bind("ESP", "Enabled", true, "Should players have an outline drawn around them?");

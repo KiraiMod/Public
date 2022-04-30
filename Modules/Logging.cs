@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace KiraiMod.Modules
 {
+    [Module]
     public static class Logging
     {
         public static ConfigEntry<bool> PlayerJoin = Plugin.cfg.Bind("Logging", "PlayerJoin", true, "Should you be notified when someone joins?");

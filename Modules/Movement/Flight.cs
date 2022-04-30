@@ -8,8 +8,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.XR;
 using VRC.SDKBase;
 
-namespace KiraiMod.Modules
+namespace KiraiMod.Modules.Movement
 {
+    [Module]
     public static class Flight
     {
         public static readonly Bound<bool> state = new();

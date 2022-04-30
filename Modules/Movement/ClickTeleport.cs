@@ -1,11 +1,11 @@
 ﻿using BepInEx.Configuration;
-using KiraiMod.Core.UI;
 using System;
 using UnityEngine;
 using VRC.SDKBase;
 
-namespace KiraiMod.Modules
+namespace KiraiMod.Modules.Movement
 {
+    [Module]
     public static class ClickTeleport
     {
         public static ConfigEntry<bool> enabled = Plugin.cfg.Bind("Movement.ClickTeleport", "Enabled", false, "Should you be able to teleport using left ctrl and left mouse click");

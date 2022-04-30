@@ -34,6 +34,8 @@ namespace KiraiMod.Managers
         public static void Register() => Register(Assembly.GetCallingAssembly());
         public static void Register(Assembly assembly)
         {
+            Core.Managers.ModuleManager.Register(assembly);
+
             Regex r = new($"^{assembly.GetName().Name}[.]?");
 
             Dictionary<string, Type[]> module = assembly.GetExportedTypes()
@@ -59,7 +61,8 @@ namespace KiraiMod.Managers
         {
             if (action is null) throw new ArgumentNullException(nameof(action));
 
-            Modules[module].ForEach(action);
+            if (Modules.TryGetValue(module, out Type[] t))
+                t.ForEach(action);
 
             if (Subscriptions.TryGetValue(module, out Action<Type>[] types))
                 Subscriptions[module] = types.Append(action).ToArray();

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 
-namespace KiraiMod.Modules
+namespace KiraiMod.Modules.Visuals
 {
+    [Module]
     public static class Skybox
     {
         public static Material material;

@@ -5,6 +5,7 @@ using System.Reflection;
 
 namespace KiraiMod.Modules
 {
+    [Module]
     public static class ForceClone
     {
         public static ConfigEntry<bool> Enabled = Plugin.cfg.Bind("ForceClone", "Enabled", true, "Force a user to allow you to clone their avatar if it is public");

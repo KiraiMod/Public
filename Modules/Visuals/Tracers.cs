@@ -4,8 +4,9 @@ using BepInEx.Configuration;
 using UnhollowerRuntimeLib;
 using System;
 
-namespace KiraiMod.Modules
+namespace KiraiMod.Modules.Visuals
 {
+    [Module]
     public static class Tracers
     {
         public static ConfigEntry<bool> PlayerTracers = Plugin.cfg.Bind("Tracers", "Players", false, "Should lines be drawn to every player in the world");
