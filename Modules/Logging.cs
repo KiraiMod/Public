@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using VRC.SDKBase;
 
 namespace KiraiMod.Modules
 {
@@ -35,8 +36,8 @@ namespace KiraiMod.Modules
 
             PortalDrop.SettingChanged += ((EventHandler)((sender, args) =>
             {
-                if (PortalDrop.Value) Events.Portal.Configure += LogPortalDropped;
-                else Events.Portal.Configure -= LogPortalDropped;
+                if (PortalDrop.Value) Events.VRCEvent.Recieved += LogPortalDropped;
+                else Events.VRCEvent.Recieved -= LogPortalDropped;
             })).Invoke();
         }
 
@@ -53,9 +54,18 @@ namespace KiraiMod.Modules
             votesCoroutine = WaitForVotes().Start();
         }
 
-        private static void LogPortalDropped(VRC.Core.ApiWorldInstance instance)
+        private static void LogPortalDropped(Core.Types.Player sender, ref VRC_EventHandler.VrcEvent ev, ref VRC_EventHandler.VrcBroadcastType broadcast)
         {
-            Plugin.log.LogInfo(instance.id);
+            if (ev.EventType != VRC_EventHandler.VrcEventType.SendRPC
+                || ev.ParameterString != "ConfigurePortal")
+                return;
+
+            var data = Networking.DecodeParameters(ev.ParameterBytes);
+            string wlrd = data[0].ToString();
+            string id = data[1].ToString();
+
+            Plugin.log.LogMessage(sender.APIUser.displayName + " dropped a portal");
+            Plugin.log.LogInfo(wlrd + ":" + id);
         }
 
         private static Coroutine votesCoroutine;
