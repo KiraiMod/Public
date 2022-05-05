@@ -30,18 +30,20 @@ namespace KiraiMod.Modules.Movement
         public static void SavePosition() => prevPos = Networking.LocalPlayer.gameObject.transform.position;
         public static void LoadPosition() => Networking.LocalPlayer.gameObject.transform.position = prevPos;
 
+        [Module]
         public static class Panic // this needs to be rewritten to save the original position better
         {
-            public static ConfigEntry<Key[]> bind = Plugin.cfg.Bind("Movement", "Panic", new Key[1] { Key.NumpadMultiply });
             public static Bound<bool> enabled = new();
             public static Vector3 offset = new(0, 1_000_000_000f, 0);
 
             static Panic()
             {
                 enabled.ValueChanged += SetState;
-                bind.Register(() => enabled.Value = !enabled._value);
                 Events.World.Unloaded += _ => enabled.Value = false;
             }
+
+            [Keybind("Movement", "Panic", Key.NumpadMultiply)]
+            public static void Bind() => enabled.Value = !enabled._value;
 
             private static void SetState(bool state)
             {
