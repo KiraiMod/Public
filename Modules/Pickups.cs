@@ -41,6 +41,7 @@ namespace KiraiMod.Modules
                 orbit.AddElement("Orbit Offset", Orbit.Offset.Value).Bound.Bind(Orbit.Offset);
 
                 ui.AddElement("Drop").Changed += Drop;
+                ui.AddElement("Scramble").Changed += Scramble;
             };
         }
 
@@ -179,11 +180,23 @@ namespace KiraiMod.Modules
             }
         }
 
-        public static void Drop()
-        {
-            foreach (VRC_Pickup pickup in UnityEngine.Object.FindObjectsOfTypeAll(UnhollowerRuntimeLib.Il2CppType.Of<VRC_Pickup>()).Cast<UnhollowerBaseLib.Il2CppReferenceArray<VRC_Pickup>>())
+        public static void Drop() =>
+            ApplyToAll(pickup =>
+            {
                 if (Networking.GetOwner(pickup.gameObject) != Networking.LocalPlayer)
                     Networking.SetOwner(Networking.LocalPlayer, pickup.gameObject);
-        }
+            });
+
+        public static void Scramble() => 
+            ApplyToAll(pickup =>
+            {
+                if (Networking.GetOwner(pickup.gameObject) != Networking.LocalPlayer)
+                    Networking.SetOwner(VRCPlayerApi.AllPlayers[UnityEngine.Random.Range(0, VRCPlayerApi.AllPlayers.Count)], pickup.gameObject);
+            });
+
+        private static void ApplyToAll(Action<VRC_Pickup> func) => 
+            UnityEngine.Object.FindObjectsOfTypeAll(UnhollowerRuntimeLib.Il2CppType.Of<VRC_Pickup>())
+                .Cast<UnhollowerBaseLib.Il2CppReferenceArray<VRC_Pickup>>()
+                .ForEach(func);
     }
 }
