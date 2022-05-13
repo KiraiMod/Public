@@ -7,13 +7,13 @@ namespace KiraiMod.Modules.Visuals
     // the idea for this comes from that person that was friends with keafy
     // their mod had an issue, i think it was causing the game to crash
     [Module]
-    public static class NoTransition
+    public static class NoTransitions
     {
         public static ConfigEntry<bool> Enabled = Plugin.cfg.Bind("Visuals", "No Transitions", true, "Should the black fade between worlds be removed?");
 
         public static GameObject Fade;
 
-        static NoTransition()
+        static NoTransitions()
         {
             Events.UIManagerLoaded += () =>
             {
