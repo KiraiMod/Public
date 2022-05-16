@@ -54,7 +54,7 @@ namespace KiraiMod.Managers
                         x.Value.ForEach(type => subs.ForEach(sub => sub(type)));
                 });
 
-            OnModuleRegistered?.Invoke(module);
+            OnModuleRegistered?.StableInvoke(module);
         }
 
         public static void Subscribe(string module, Action<Type> action)

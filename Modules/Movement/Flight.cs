@@ -1,7 +1,6 @@
 ﻿using BepInEx.Configuration;
 using HarmonyLib;
 using KiraiMod.Core.UI;
-using KiraiMod.Core.Utils;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,34 +12,58 @@ namespace KiraiMod.Modules.Movement
     [Module]
     public static class Flight
     {
-        public static readonly Bound<bool> state = new();
-        public static readonly ConfigEntry<bool> noclip /**/ = Plugin.cfg.Bind("Flight", "NoClip", false, " Should you be able to go through solid objects");
-        public static readonly ConfigEntry<bool> directional = Plugin.cfg.Bind("Flight", "Directional", false, "Should you move in the direction you are looking");
-        public static readonly ConfigEntry<float> speed /**/ = Plugin.cfg.Bind("Flight", "Speed", 8.0f, "The speed in meters per second at which you fly");
-        public static readonly ConfigEntry<Key[]> keybind = Plugin.cfg.Bind("Flight", "keybind", new Key[] { Key.LeftCtrl, Key.F }, "The keybind to toggle flight");
+        private static bool _enabled;
+        [Configure<bool>("Movement.Flight", "Enabled", false, false)]
+        [Keybind<bool>("Movement.Flight", "Keybind", true, false, Key.F)]
+        public static bool Enabled
+        {
+            get => _enabled;
+            set {
+                if (_enabled == value)
+                    return;
+                _enabled = value;
+
+                if (value) Enable();
+                else Disable();
+            }
+        }
+
+        private static bool _noclip;
+        [Configure<bool>("Movement.Flight", "No Clip", true)]
+        public static bool NoClip
+        {
+            get => _noclip;
+            set
+            {
+                if (_noclip == value)
+                    return;
+                _noclip = value;
+
+                Collisions.Set(value);
+            }
+        }
+
+        private static bool _directional;
+        [Configure<bool>("Movement.Flight", "Directional", false)]
+        public static bool Directional
+        {
+            get => _directional;
+            set
+            {
+                if (_directional == value)
+                    return;
+                _directional = value;
+
+                Target.Fetch();
+            }
+        }
+
+        [Configure<float>("Movement.Flight", "Speed", 8.0f)]
+        public static float speed;
 
         static Flight()
         {
-            GUI.Groups.Loaded += () =>
-            {
-                UIGroup flight = new("Flight", GUI.Groups.Movement);
-                flight.AddElement("Enabled", state);
-                flight.AddElement("Flight Speed", speed.Value).Bound.Bind(speed);
-                flight.AddElement("NoClip", noclip.Value).Bound.Bind(noclip);
-                flight.AddElement("Directional", directional.Value).Bound.Bind(directional);
-            };
-
-            Events.World.Unloaded += scene => state.Value = false;
-
-            state.ValueChanged += value => {
-                if (value) Enable();
-                else Disable();
-            };
-
-            keybind.Register(() => state.Value = !state._value);
-
-            noclip.SettingChanged += (sender, args) => Collisions.Set(noclip.Value);
-            directional.SettingChanged += (sender, args) => Target.Fetch();
+            Events.World.Unloaded += scene => Enabled = false;
 
             typeof(Hooks).Initialize();
         }
@@ -55,7 +78,7 @@ namespace KiraiMod.Modules.Movement
                 Events.Update += UpdateVR;
             else Events.Update += UpdateDesktop;
             Events.World.Loaded += WorldLoaded;
-            if (noclip.Value)
+            if (_noclip)
                 Collisions.Set(true);
             Target.Fetch();
         }
@@ -80,7 +103,7 @@ namespace KiraiMod.Modules.Movement
 
             Events.Update -= UpdateCheck;
 
-            if (noclip.Value)
+            if (_noclip)
                 Collisions.Set(true);
             Target.Fetch();
         }
@@ -92,7 +115,7 @@ namespace KiraiMod.Modules.Movement
             unsafe
             {
                 byte shift = ToByte(Input.GetKey(KeyCode.LeftShift));
-                float _speed = speed.Value;
+                float _speed = speed;
 
                 Networking.LocalPlayer.gameObject.transform.position +=
                     Target.value.forward * _speed * Time.deltaTime *
@@ -109,7 +132,7 @@ namespace KiraiMod.Modules.Movement
         private static void UpdateVR()
         {
             if (Networking.LocalPlayer == null) return;
-            float _speed = speed.Value;
+            float _speed = speed;
 
             Networking.LocalPlayer.gameObject.transform.position +=
                 Target.value.forward * _speed * Time.deltaTime * Input.GetAxis("Vertical")
@@ -147,7 +170,7 @@ namespace KiraiMod.Modules.Movement
                 if (Networking.LocalPlayer == null)
                     return;
 
-                value = directional.Value
+                value = _directional
                     ? GameObject.Find("_Application/TrackingVolume/TrackingSteam(Clone)/SteamCamera/[CameraRig]/Neck/Camera (head)").transform
                     : Networking.LocalPlayer.gameObject.transform;
             }
@@ -163,8 +186,8 @@ namespace KiraiMod.Modules.Movement
                 if (__0.magnitude == 0)
                     return true;
 
-                Flight.oGrav = __0;
-                return !state._value;
+                oGrav = __0;
+                return !Enabled;
             }
         }
     }
