@@ -1,6 +1,4 @@
-﻿using BepInEx.Configuration;
-using HarmonyLib;
-using KiraiMod.Core.UI;
+﻿using HarmonyLib;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,8 +11,8 @@ namespace KiraiMod.Modules.Movement
     public static class Flight
     {
         private static bool _enabled;
-        [Configure<bool>("Movement.Flight", "Enabled", false, false)]
-        [Keybind<bool>("Movement.Flight", "Keybind", true, false, Key.F)]
+        [Configure<bool>("Movement.Flight.Enabled", false, false)]
+        [Keybind<bool>("Movement.Flight.Keybind", true, false, Key.F)]
         public static bool Enabled
         {
             get => _enabled;
@@ -29,7 +27,7 @@ namespace KiraiMod.Modules.Movement
         }
 
         private static bool _noclip;
-        [Configure<bool>("Movement.Flight", "No Clip", true)]
+        [Configure<bool>("Movement.Flight.NoClip", true, Display = "No Clip")]
         public static bool NoClip
         {
             get => _noclip;
@@ -44,7 +42,7 @@ namespace KiraiMod.Modules.Movement
         }
 
         private static bool _directional;
-        [Configure<bool>("Movement.Flight", "Directional", false)]
+        [Configure<bool>("Movement.Flight.Directional", false)]
         public static bool Directional
         {
             get => _directional;
@@ -58,7 +56,7 @@ namespace KiraiMod.Modules.Movement
             }
         }
 
-        [Configure<float>("Movement.Flight", "Speed", 8.0f)]
+        [Configure<float>("Movement.Flight.Speed", 8.0f)]
         public static float speed;
 
         static Flight()

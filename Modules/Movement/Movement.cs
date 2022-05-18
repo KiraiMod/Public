@@ -42,7 +42,7 @@ namespace KiraiMod.Modules.Movement
                 Events.World.Unloaded += _ => enabled.Value = false;
             }
 
-            [Keybind("Movement", "Panic", Key.NumpadMultiply)]
+            [Keybind("Movement.Panic", Key.NumpadMultiply)]
             public static void Bind() => enabled.Value = !enabled._value;
 
             private static void SetState(bool state)
