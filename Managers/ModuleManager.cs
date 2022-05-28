@@ -24,9 +24,9 @@ namespace KiraiMod.Managers
             {
                 if (!module.IsNested)
                 {
-                    Plugin.log.LogDebug("Loading " + module.FullName);
+                    Plugin.Logger.LogDebug("Loading " + module.FullName);
                     try { module.Initialize(); }
-                    catch (Exception ex) { Plugin.log.LogError("Exception occurred whilst loading " + module.FullName + ": " + ex); }
+                    catch (Exception ex) { Plugin.Logger.LogError("Exception occurred whilst loading " + module.FullName + ": " + ex); }
                 }
             });
         }

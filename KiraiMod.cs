@@ -15,15 +15,15 @@ namespace KiraiMod
     [BepInDependency("me.kiraihooks.KiraiMod.Core.UI")]
     public class Plugin : BasePlugin
     {
-        internal static ManualLogSource log;
-        internal static ConfigFile cfg;
-        internal static Harmony harmony;
+        internal static ManualLogSource Logger;
+        internal static ConfigFile Configuration;
+        internal static Harmony HarmonyInstance;
 
         public override void Load()
         {
-            log = Log;
-            cfg = Config;
-            harmony = new("me.kiraihooks.KiraiMod");
+            Logger = Log;
+            Configuration = Config;
+            HarmonyInstance = new("me.kiraihooks.KiraiMod");
 
             typeof(ModuleManager).Initialize();
             typeof(GUIManager).Initialize();

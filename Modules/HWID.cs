@@ -13,19 +13,19 @@ namespace KiraiMod.Modules
 
         static HWID()
         {
-            if (!Plugin.cfg.Bind("HWID", "Enabled", true, string.Empty).Value)
+            if (!Plugin.Configuration.Bind("HWID", "Enabled", true, string.Empty).Value)
                 return;
 
             string old = UnityEngine.SystemInfo.deviceUniqueIdentifier;
 
-            Plugin.log.LogInfo("Old HWID: " + old);
+            Plugin.Logger.LogInfo("Old HWID: " + old);
 
-            var config = Plugin.cfg.Bind<string>("HWID", "Target", null, "The target hardware ID that you will be spoofed to.\nSet empty for a new one.");
+            var config = Plugin.Configuration.Bind<string>("HWID", "Target", null, "The target hardware ID that you will be spoofed to.\nSet empty for a new one.");
             target = config.Value;
             if (string.IsNullOrWhiteSpace(target))
                 config.Value = target = Generate(old.Length);
 
-            Plugin.log.LogInfo("New HWID: " + target);
+            Plugin.Logger.LogInfo("New HWID: " + target);
 
             if (target.Length != old.Length)
                 Abort("Target HWID length does not match the original HWID length");
@@ -34,14 +34,14 @@ namespace KiraiMod.Modules
 
             if (UnityEngine.SystemInfo.deviceUniqueIdentifier == old)
                 Abort("HWID is still the original after spoofing");
-            else Plugin.log.LogMessage("Successfully spoofed HWID");
+            else Plugin.Logger.LogMessage("Successfully spoofed HWID");
         }
 
         public static string Generate(int length) => string.Join("", Enumerable.Range(0, length >> 1).Select(x => UnityEngine.Random.Range(0, 255).ToString("x2")));
 
         private static void Abort(string message)
         {
-            Plugin.log.LogFatal(message);
+            Plugin.Logger.LogFatal(message);
             Console.Beep();
             Console.ReadKey();
             Environment.Exit(0);

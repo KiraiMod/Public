@@ -8,8 +8,8 @@ namespace KiraiMod.Modules.Movement
     [Module]
     public static class ClickTeleport
     {
-        public static ConfigEntry<bool> enabled = Plugin.cfg.Bind("Movement.ClickTeleport", "Enabled", false, "Should you be able to teleport using left ctrl and left mouse click");
-        public static ConfigEntry<int> range = Plugin.cfg.Bind("Movement.ClickTeleport", "Range", 10_000, "How far should you be able to teleport");
+        public static ConfigEntry<bool> enabled = Plugin.Configuration.Bind("Movement.ClickTeleport", "Enabled", false, "Should you be able to teleport using left ctrl and left mouse click");
+        public static ConfigEntry<int> range = Plugin.Configuration.Bind("Movement.ClickTeleport", "Range", 10_000, "How far should you be able to teleport");
         public static Camera camera;
 
         static ClickTeleport()

@@ -7,7 +7,7 @@ namespace KiraiMod.Modules.Visuals
     [Module]
     public static class NoBanners
     {
-        public static ConfigEntry<bool> RemoveBanners = Plugin.cfg.Bind("Visuals", "No Banners", true, "Should the banners on the quick menu be removed?");
+        public static ConfigEntry<bool> RemoveBanners = Plugin.Configuration.Bind("Visuals", "No Banners", true, "Should the banners on the quick menu be removed?");
 
         private static Transform Banners;
 

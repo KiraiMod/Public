@@ -9,7 +9,7 @@ namespace KiraiMod.Modules.Visuals
     [Module]
     public static class NoTransitions
     {
-        public static ConfigEntry<bool> Enabled = Plugin.cfg.Bind("Visuals", "No Transitions", true, "Should the black fade between worlds be removed?");
+        public static ConfigEntry<bool> Enabled = Plugin.Configuration.Bind("Visuals", "No Transitions", true, "Should the black fade between worlds be removed?");
 
         public static GameObject Fade;
 

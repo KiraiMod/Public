@@ -1,36 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>netstandard2.1</TargetFramework>
-		<LangVersion>preview</LangVersion>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	</PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <LangVersion>preview</LangVersion>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
 
-	<ItemGroup>
-	  <None Remove="Lib\KiraiMod.GUI.AssetBundle" />
-	</ItemGroup>
+    <ItemGroup>
+        <None Remove="Lib\KiraiMod.GUI.AssetBundle"/>
+    </ItemGroup>
 
-	<ItemGroup>
-	  <EmbeddedResource Include="Lib\KiraiMod.GUI.AssetBundle" />
-	</ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Lib\KiraiMod.GUI.AssetBundle"/>
+    </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\KiraiMod.Core.UI\KiraiMod.Core.UI.csproj" />
-		<ProjectReference Include="..\KiraiMod.Core\KiraiMod.Core.csproj" />
-	</ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\KiraiMod.Core.UI\KiraiMod.Core.UI.csproj"/>
+        <ProjectReference Include="..\KiraiMod.Core\KiraiMod.Core.csproj"/>
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="BepInEx.IL2CPP" Version="6.0.0-be.*" />
-		<PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="*" PrivateAssets="all" />
-		<PackageReference Include="VRC.GameLibs" Version="*-*" PrivateAssets="all" />
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="BepInEx.IL2CPP" Version="6.0.0-be.*"/>
+        <PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="*" PrivateAssets="all"/>
+        <PackageReference Include="VRC.GameLibs" Version="*-*" PrivateAssets="all"/>
+    </ItemGroup>
 
-	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-		<Exec Command="COPY &quot;..\KiraiMod.AssetBundles\AssetBundles\StandaloneWindows\gui&quot; &quot;Lib\KiraiMod.GUI.AssetBundle&quot;&#xD;&#xA;exit /b 0" />
-	</Target>
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition=" '$(OS)' == 'Windows_NT' ">
+        <Exec Command="COPY &quot;..\KiraiMod.AssetBundles\AssetBundles\StandaloneWindows\gui&quot; &quot;Lib\KiraiMod.GUI.AssetBundle&quot;&#xD;&#xA;exit /b 0"/>
+    </Target>
 
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="IF EXIST &quot;$(ProjectDir)/../KiraiMod.Private/Lib/ILBreaker&quot; (&#xD;&#xA;  dotnet &quot;$(ProjectDir)/../KiraiMod.Private/Lib/ILBreaker/ILBreaker.dll&quot; &quot;$(TargetPath)&quot;&#xD;&#xA;)" />
-	</Target>
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition=" '$(OS)' == 'Windows_NT' ">
+        <Exec Command="IF EXIST &quot;$(ProjectDir)/../KiraiMod.Private/Lib/ILBreaker&quot; (&#xD;&#xA;  dotnet &quot;$(ProjectDir)/../KiraiMod.Private/Lib/ILBreaker/ILBreaker.dll&quot; &quot;$(TargetPath)&quot;&#xD;&#xA;)"/>
+    </Target>
 
 </Project>

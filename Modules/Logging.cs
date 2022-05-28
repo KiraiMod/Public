@@ -9,10 +9,10 @@ namespace KiraiMod.Modules
     [Module]
     public static class Logging
     {
-        public static ConfigEntry<bool> PlayerJoin = Plugin.cfg.Bind("Logging", "PlayerJoin", true, "Should you be notified when someone joins?");
-        public static ConfigEntry<bool> PlayerLeave = Plugin.cfg.Bind("Logging", "PlayerLeave", true, "Should you be notified when someone leaves?");
-        public static ConfigEntry<bool> VotesReady = Plugin.cfg.Bind("Logging", "VotesReady", true, "Should you be notified when you can partake in votes?");
-        public static ConfigEntry<bool> PortalDrop = Plugin.cfg.Bind("Logging", "PortalDrop", true, "Should you be notified when a portal is dropped?");
+        public static ConfigEntry<bool> PlayerJoin = Plugin.Configuration.Bind("Logging", "PlayerJoin", true, "Should you be notified when someone joins?");
+        public static ConfigEntry<bool> PlayerLeave = Plugin.Configuration.Bind("Logging", "PlayerLeave", true, "Should you be notified when someone leaves?");
+        public static ConfigEntry<bool> VotesReady = Plugin.Configuration.Bind("Logging", "VotesReady", true, "Should you be notified when you can partake in votes?");
+        public static ConfigEntry<bool> PortalDrop = Plugin.Configuration.Bind("Logging", "PortalDrop", true, "Should you be notified when a portal is dropped?");
 
         static Logging()
         {
@@ -41,8 +41,8 @@ namespace KiraiMod.Modules
             })).Invoke();
         }
 
-        private static void LogPlayerJoined(Core.Types.Player player) => Plugin.log.LogMessage($"{player.APIUser.displayName} joined");
-        private static void LogPlayerLeft(Core.Types.Player player) => Plugin.log.LogMessage($"{player.APIUser.displayName} left");
+        private static void LogPlayerJoined(Core.Types.Player player) => Plugin.Logger.LogMessage($"{player.APIUser.displayName} joined");
+        private static void LogPlayerLeft(Core.Types.Player player) => Plugin.Logger.LogMessage($"{player.APIUser.displayName} left");
         private static void StartVoteTimer(VRC.Core.ApiWorldInstance _)
         {
             if (votesCoroutine != null)
@@ -64,8 +64,8 @@ namespace KiraiMod.Modules
             string wlrd = data[0].ToString();
             string id = data[1].ToString();
 
-            Plugin.log.LogMessage(sender.APIUser.displayName + " dropped a portal");
-            Plugin.log.LogInfo(wlrd + ":" + id);
+            Plugin.Logger.LogMessage(sender.APIUser.displayName + " dropped a portal");
+            Plugin.Logger.LogInfo(wlrd + ":" + id);
         }
 
         private static Coroutine votesCoroutine;
@@ -74,7 +74,7 @@ namespace KiraiMod.Modules
         {
             yield return wait;
 
-            Plugin.log.LogMessage("You can now partake in votes");
+            Plugin.Logger.LogMessage("You can now partake in votes");
         }
     }
 }
