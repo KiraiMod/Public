@@ -11,6 +11,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <None Remove=".git" />
+        <None Remove=".gitignore" />
         <None Remove="Lib\KiraiMod.GUI.AssetBundle" />
     </ItemGroup>
 
@@ -19,16 +21,16 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\KiraiMod.Core.UI\KiraiMod.Core.UI.csproj" Condition=" '$(GITHUB_ACTIONS)' != 'true' "/>
-        <ProjectReference Include="..\KiraiMod.Core\KiraiMod.Core.csproj" Condition=" '$(GITHUB_ACTIONS)' != 'true' "/>
+        <ProjectReference Include="..\KiraiMod.Core.UI\KiraiMod.Core.UI.csproj" Condition=" '$(GITHUB_ACTIONS)' != 'true' " />
+        <ProjectReference Include="..\KiraiMod.Core\KiraiMod.Core.csproj" Condition=" '$(GITHUB_ACTIONS)' != 'true' " />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="BepInEx.IL2CPP" Version="6.0.0-be.*" />
         <PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="*" PrivateAssets="all" />
 		<PackageReference Include="VRC.GameLibs" Version="*-*" PrivateAssets="all" />
-		<PackageReference Include="KiraiMod.Core" Version="*-*" PrivateAssets="all" Condition=" '$(GITHUB_ACTIONS)' == 'true' "/>
-		<PackageReference Include="KiraiMod.Core.UI" Version="*-*" PrivateAssets="all" Condition=" '$(GITHUB_ACTIONS)' == 'true' "/>
+		<PackageReference Include="KiraiMod.Core" Version="*-*" PrivateAssets="all" Condition=" '$(GITHUB_ACTIONS)' == 'true' " />
+		<PackageReference Include="KiraiMod.Core.UI" Version="*-*" PrivateAssets="all" Condition=" '$(GITHUB_ACTIONS)' == 'true' " />
     </ItemGroup>
 
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition=" '$(OS)' == 'Windows_NT' ">
