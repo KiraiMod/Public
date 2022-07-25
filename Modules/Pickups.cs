@@ -11,15 +11,14 @@ using VRC.Udon.Wrapper.Modules;
 namespace KiraiMod.Modules
 {
     [Module]
-    public static class Pickups
+    public static class PickupsLegacy
     {
-        private static readonly MethodInfo NoOp = typeof(Pickups).GetMethod(nameof(HkNoOp), BindingFlags.NonPublic | BindingFlags.Static);
+        private static readonly MethodInfo NoOp = typeof(PickupsLegacy).GetMethod(nameof(HkNoOp), BindingFlags.NonPublic | BindingFlags.Static);
         private static bool HkNoOp() => false;
 
-        static Pickups()
+        static PickupsLegacy()
         {
             typeof(Modifiers).Initialize();
-            typeof(Orbit).Initialize();
 
             LegacyGUIManager.OnLoad += () =>
             {
@@ -33,12 +32,6 @@ namespace KiraiMod.Modules
                 modifiers.AddElement("Reach", Modifiers.reach.Value).Bound.Bind(Modifiers.reach); //                 then hope for bepinex to give
                 modifiers.AddElement("Boost", Modifiers.boost.Value).Bound.Bind(Modifiers.boost); //                 config entry a base class we can use 
                 modifiers.AddElement("Boost Speed", Modifiers.boostSpeed.Value).Bound.Bind(Modifiers.boostSpeed); // instead of bound
-
-                UIGroup orbit = new("Orbit", ui);
-                orbit.AddElement("Enabled", Orbit.State);
-                orbit.AddElement("Orbit Speed", Orbit.Speed.Value).Bound.Bind(Orbit.Speed);
-                orbit.AddElement("Orbit Distance", Orbit.Distance.Value).Bound.Bind(Orbit.Distance);
-                orbit.AddElement("Orbit Offset", Orbit.Offset.Value).Bound.Bind(Orbit.Offset);
 
                 ui.AddElement("Drop").Changed += Drop;
                 ui.AddElement("Scramble").Changed += Scramble;
@@ -116,67 +109,6 @@ namespace KiraiMod.Modules
                     foreach (VRC_Pickup pickup in UnityEngine.Object.FindObjectsOfType<VRC_Pickup>())
                         setup(pickup);
                 }
-            }
-        }
-
-        public static class Orbit
-        {
-            public static ConfigEntry<float> Speed = Plugin.Configuration.Bind("Pickups", "OrbitSpeed", 1f, "How fast the items complete a full revolution around the target");
-            public static ConfigEntry<float> Distance = Plugin.Configuration.Bind("Pickups", "OrbitDitance", 1f, "How far the items should be from the target");
-            public static ConfigEntry<float> Offset = Plugin.Configuration.Bind("Pickups", "OrbitOffset", 0f, "How much the items should be above or below the target");
-
-            public static Bound<bool> State = new();
-
-            private static VRC_Pickup[] pickups;
-
-            static Orbit()
-            {
-                State.ValueChanged += value =>
-                {
-                    if (value)
-                    {
-                        pickups = UnityEngine.Object.FindObjectsOfType<VRC_Pickup>();
-                        Events.Player.Left += CheckTargetMissing;
-                        Events.Update += Update;
-                    }
-                    else
-                    {
-                        Events.Player.Left -= CheckTargetMissing;
-                        Events.Update -= Update;
-                    }
-                };
-            }
-
-            private static void Update()
-            {
-                if (Players.Target == null)
-                {
-                    State.Value = false;
-                    return;
-                }
-
-                float degrees = 360 / pickups.Length;
-
-                for (int i = 0; i < pickups.Length; i++)
-                {
-                    VRC_Pickup pickup = pickups[i];
-
-                    if (pickup is null)
-                        continue;
-
-                    if (Networking.GetOwner(pickup.gameObject) != Networking.LocalPlayer)
-                        Networking.SetOwner(Networking.LocalPlayer, pickup.gameObject);
-
-                    pickup.transform.position =
-                        Players.Target.VRCPlayerApi.gameObject.transform.position
-                        + new Vector3(Mathf.Sin(Time.time * Speed.Value + degrees * i) * Distance.Value, Offset.Value, Mathf.Cos(Time.time * Speed.Value + degrees * i) * Distance.Value);
-                }
-            }
-
-            private static void CheckTargetMissing(Core.Types.Player player)
-            {
-                if (player.Inner == Players.Target.Inner)
-                    State.Value = false;
             }
         }
 
