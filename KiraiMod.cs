@@ -27,6 +27,8 @@ namespace KiraiMod
 
             typeof(ModuleManager).Initialize();
             typeof(GUIManager).Initialize();
+
+            Core.MessageAPI.Components.ModList.Mods.Add("KiraiMod Redux");
         }
     }
 }
